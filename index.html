@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nguyen Dinh Quang Khanh — Backend Software Engineer</title>
+  <meta name="description" content="Backend Software Engineer at MoMo. Builder of distributed systems, databases, and message queues from scratch." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+    ============================================ */
+    :root {
+      --bg:        #0a0e1a;
+      --bg-deep:   #060810;
+      --card:      #1a1f35;
+      --card-hi:   #1f2540;
+      --border:    rgba(255,255,255,0.06);
+      --border-hi: rgba(0,212,255,0.25);
+      --primary:   #00d4ff;
+      --secondary: #ff6b35;
+      --success:   #00ff88;
+      --warn:      #ffd166;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --dim:       #94a3b8;
+      --font-body: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius:    12px;
+      --radius-lg: 20px;
+      --glow-p:    0 0 24px rgba(0,212,255,0.18);
+      --glow-s:    0 0 24px rgba(255,107,53,0.18);
+      --glow-g:    0 0 24px rgba(0,255,136,0.18);
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================
+       SCROLLBAR
+    ============================================ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+
+    /* ============================================
+       SELECTION
+    ============================================ */
+    ::selection { background: rgba(0,212,255,0.25); color: #fff; }
+
+    /* ============================================
+       TYPOGRAPHY UTILITIES
+    ============================================ */
+    .mono { font-family: var(--font-mono); }
+    .text-primary { color: var(--primary); }
+    .text-secondary { color: var(--secondary); }
+    .text-success { color: var(--success); }
+    .text-muted { color: var(--muted); }
+    .text-dim { color: var(--dim); }
+
+    /* ============================================
+       LAYOUT
+    ============================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    section { padding: 100px 0; }
+
+    /* ============================================
+       SECTION HEADERS
+    ============================================ */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--primary);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      color: var(--dim);
+      max-width: 560px;
+      margin-bottom: 60px;
+      font-size: 1.05rem;
+    }
+
+    /* ============================================
+       NAV
+    ============================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--primary);
+      color: var(--bg) !important;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: var(--transition) !important;
+    }
+    .nav-cta:hover {
+      background: var(--text) !important;
+      color: var(--bg) !important;
+      transform: translateY(-1px);
+      box-shadow: var(--glow-p);
+    }
+    .nav-cta::after { display: none !important; }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 60px;
+    }
+    #canvas-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.45;
+    }
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--primary);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.08em;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-name .accent { color: var(--primary); }
+    .hero-title {
+      font-family: var(--font-mono);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--dim);
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-title .highlight { color: var(--secondary); font-weight: 600; }
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--text);
+      max-width: 640px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .hero-tagline strong { color: var(--primary); font-weight: 700; }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: #26dbff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,212,255,0.35);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-hi);
+    }
+    .btn-secondary:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--dim);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      animation: fadeIn 1s 1s ease both;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollDown 1.5s ease infinite;
+    }
+
+    /* ============================================
+       STATS BAR
+    ============================================ */
+    #stats {
+      padding: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide-x: 1px solid var(--border);
+    }
+    .stat-item {
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: var(--card-hi); }
+    .stat-item:hover .stat-number { text-shadow: 0 0 20px currentColor; }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      display: block;
+      line-height: 1;
+      margin-bottom: 8px;
+      transition: text-shadow 0.3s;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .stat-item:nth-child(1) .stat-number { color: var(--primary); }
+    .stat-item:nth-child(2) .stat-number { color: var(--success); }
+    .stat-item:nth-child(3) .stat-number { color: var(--warn); }
+    .stat-item:nth-child(4) .stat-number { color: var(--secondary); }
+
+    /* ============================================
+       PROJECTS
+    ============================================ */
+    #projects { background: var(--bg); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(540px, 1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .project-card[data-color="primary"]::before {
+      background: radial-gradient(ellipse at top left, rgba(0,212,255,0.08) 0%, transparent 60%);
+    }
+    .project-card[data-color="secondary"]::before {
+      background: radial-gradient(ellipse at top left, rgba(255,107,53,0.08) 0%, transparent 60%);
+    }
+    .project-card[data-color="success"]::before {
+      background: radial-gradient(ellipse at top left, rgba(0,255,136,0.08) 0%, transparent 60%);
+    }
+    .project-card[data-color="warn"]::before {
+      background: radial-gradient(ellipse at top left, rgba(255,209,102,0.08) 0%, transparent 60%);
+    }
+    .project-card[data-color="purple"]::before {
+      background: radial-gradient(ellipse at top left, rgba(139,92,246,0.08) 0%, transparent 60%);
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hi);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-p);
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card[data-color="secondary"]:hover {
+      border-color: rgba(255,107,53,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-s);
+    }
+    .project-card[data-color="success"]:hover {
+      border-color: rgba(0,255,136,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-g);
+    }
+    .project-card[data-color="warn"]:hover {
+      border-color: rgba(255,209,102,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 24px rgba(255,209,102,0.18);
+    }
+    .project-card[data-color="purple"]:hover {
+      border-color: rgba(139,92,246,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 24px rgba(139,92,246,0.18);
+    }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .project-icon-primary { background: rgba(0,212,255,0.12); }
+    .project-icon-secondary { background: rgba(255,107,53,0.12); }
+    .project-icon-success { background: rgba(0,255,136,0.12); }
+    .project-icon-warn { background: rgba(255,209,102,0.12); }
+    .project-icon-purple { background: rgba(139,92,246,0.12); }
+
+    .project-links { display: flex; gap: 8px; }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: var(--transition);
+      letter-spacing: 0.05em;
+    }
+    .project-link:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(0,212,255,0.06);
+    }
+    .project-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .project-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .project-desc {
+      color: var(--dim);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .project-features {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s;
+      opacity: 0;
+    }
+    .project-card.expanded .project-features {
+      max-height: 300px;
+      opacity: 1;
+    }
+    .project-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--dim);
+    }
+    .project-feature::before {
+      content: '›';
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .project-stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .project-stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .project-stat-icon { font-size: 0.85rem; }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    .tag-primary {
+      background: rgba(0,212,255,0.08);
+      color: var(--primary);
+      border: 1px solid rgba(0,212,255,0.15);
+    }
+    .tag-secondary {
+      background: rgba(255,107,53,0.08);
+      color: var(--secondary);
+      border: 1px solid rgba(255,107,53,0.15);
+    }
+    .tag-success {
+      background: rgba(0,255,136,0.08);
+      color: var(--success);
+      border: 1px solid rgba(0,255,136,0.15);
+    }
+    .tag-warn {
+      background: rgba(255,209,102,0.08);
+      color: var(--warn);
+      border: 1px solid rgba(255,209,102,0.15);
+    }
+    .tag-purple {
+      background: rgba(139,92,246,0.08);
+      color: #a78bfa;
+      border: 1px solid rgba(139,92,246,0.15);
+    }
+    .tag-default {
+      background: rgba(255,255,255,0.04);
+      color: var(--dim);
+      border: 1px solid var(--border);
+    }
+    .tag:hover { transform: translateY(-1px); filter: brightness(1.2); }
+    .expand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--primary);
+      margin-top: 16px;
+      cursor: pointer;
+      transition: gap 0.2s;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .expand-btn:hover { gap: 8px; }
+    .expand-btn .arrow { transition: transform 0.3s; }
+    .project-card.expanded .expand-btn .arrow { transform: rotate(90deg); }
+
+    /* ============================================
+       ARCHITECTURE DIAGRAM
+    ============================================ */
+    #architecture { background: var(--bg-deep); }
+    .arch-diagram {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .arch-diagram::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(255,107,53,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .arch-layer {
+      margin-bottom: 32px;
+    }
+    .arch-layer-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-left: 8px;
+      border-left: 2px solid var(--border-hi);
+    }
+    .arch-nodes {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .arch-node {
+      flex: 1;
+      min-width: 180px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .arch-node:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-3px);
+      box-shadow: var(--glow-p);
+    }
+    .arch-node.grabflow {
+      border-color: rgba(0,212,255,0.3);
+      background: rgba(0,212,255,0.04);
+    }
+    .arch-node.grabflow:hover {
+      box-shadow: 0 0 40px rgba(0,212,255,0.2);
+    }
+    .arch-node-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .arch-node-desc {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .arch-connector {
+      text-align: center;
+      padding: 8px 0;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .arch-connector::before,
+    .arch-connector::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 60px;
+      background: linear-gradient(to right, transparent, var(--border-hi));
+    }
+    .arch-connector::after {
+      background: linear-gradient(to left, transparent, var(--border-hi));
+    }
+    .arch-arrow {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0;
+      color: var(--border-hi);
+      font-size: 1.5rem;
+    }
+
+    /* ============================================
+       EXPERIENCE
+    ============================================ */
+    #experience { background: var(--bg); }
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--primary), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -36px;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 12px var(--primary);
+    }
+    .timeline-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .timeline-company {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .timeline-role {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .timeline-achievements {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .achievement {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+    .achievement:hover {
+      border-color: var(--border-hi);
+      transform: translateX(4px);
+    }
+    .achievement-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .achievement-text {
+      font-size: 0.9rem;
+      color: var(--dim);
+      line-height: 1.6;
+    }
+    .achievement-text strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+    .achievement-text .metric {
+      color: var(--success);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* ============================================
+       SKILLS
+    ============================================ */
+    #skills { background: var(--bg-deep); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .skill-category {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: var(--transition);
+    }
+    .skill-category:hover {
+      border-color: var(--border-hi);
+      box-shadow: var(--glow-p);
+    }
+    .skill-category-name {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-category-name::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: currentColor;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      transition: var(--transition);
+      cursor: default;
+    }
+    .skill-tag:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: rgba(0,212,255,0.25);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================
+       CS FUNDAMENTALS
+    ============================================ */
+    #cs-fundamentals { background: var(--bg); }
+    .cs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .cs-cell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .cs-cell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .cs-cell:hover::before { opacity: 1; }
+    .cs-cell:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: var(--border-hi);
+    }
+    .cs-cell[data-glow="primary"]::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.12) 0%, transparent 70%);
+    }
+    .cs-cell[data-glow="primary"]:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(0,212,255,0.15);
+    }
+    .cs-cell[data-glow="secondary"]::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.12) 0%, transparent 70%);
+    }
+    .cs-cell[data-glow="secondary"]:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,107,53,0.15);
+    }
+    .cs-cell[data-glow="success"]::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.12) 0%, transparent 70%);
+    }
+    .cs-cell[data-glow="success"]:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(0,255,136,0.15);
+    }
+    .cs-cell[data-glow="warn"]::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,209,102,0.12) 0%, transparent 70%);
+    }
+    .cs-cell[data-glow="warn"]:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,209,102,0.15);
+    }
+    .cs-cell[data-glow="purple"]::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%);
+    }
+    .cs-cell[data-glow="purple"]:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(139,92,246,0.15);
+    }
+    .cs-cell-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .cs-cell-project {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      position: relative;
+    }
+    .cs-cell-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 1rem;
+    }
+
+    /* ============================================
+       EDUCATION
+    ============================================ */
+    #education { background: var(--bg-deep); }
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .edu-card:hover {
+      border-color: var(--border-hi);
+      box-shadow: var(--glow-p);
+    }
+    .edu-school {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .edu-degree {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .edu-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .edu-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .edu-badge-gpa {
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--primary);
+    }
+    .edu-badge-honor {
+      background: rgba(255,209,102,0.1);
+      border: 1px solid rgba(255,209,102,0.2);
+      color: var(--warn);
+    }
+    .edu-badge-top {
+      background: rgba(0,255,136,0.1);
+      border: 1px solid rgba(0,255,136,0.2);
+      color: var(--success);
+    }
+    .edu-gpa-display {
+      text-align: center;
+    }
+    .edu-gpa-number {
+      font-family: var(--font-mono);
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+      display: block;
+      text-shadow: 0 0 40px rgba(0,212,255,0.3);
+    }
+    .edu-gpa-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ============================================
+       CONTACT
+    ============================================ */
+    #contact { background: var(--bg); }
+    .contact-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 64px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(0,212,255,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 50%, rgba(255,107,53,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .contact-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .contact-title span { color: var(--primary); }
+    .contact-desc {
+      color: var(--dim);
+      max-width: 500px;
+      margin: 0 auto 48px;
+      font-size: 1.05rem;
+      position: relative;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--dim);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .contact-link:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(0,212,255,0.06);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .contact-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .footer-text a { color: var(--primary); }
+    .footer-text a:hover { text-decoration: underline; }
+
+    /* ============================================
+       ANIMATIONS
+    ============================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(0.85); }
+    }
+    @keyframes scrollDown {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       MOBILE NAV
+    ============================================ */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,14,26,0.98);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dim);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--primary); }
+    .mobile-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--dim);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .edu-card { grid-template-columns: 1fr; }
+      .edu-gpa-display { order: -1; }
+      .contact-wrapper { padding: 40px 24px; }
+      .arch-nodes { flex-direction: column; }
+      .cs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .cs-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-name { letter-spacing: -0.03em; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================
+       NAV
+  ============================== -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo mono">ndqkhanh<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#cs-fundamentals">CS Fundamentals</a></li>
+        <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+    <a href="#architecture" onclick="closeMobileMenu()">Architecture</a>
+    <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+    <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+    <a href="#cs-fundamentals" onclick="closeMobileMenu()">CS Fundamentals</a>
+    <a href="#education" onclick="closeMobileMenu()">Education</a>
+    <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  </div>
+
+  <!-- ==============================
+       HERO
+  ============================== -->
+  <section id="hero">
+    <canvas id="canvas-bg"></canvas>
+    <div class="hero-grid-overlay"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Available for FAANG roles &middot; Ho Chi Minh City, Vietnam
+        </div>
+        <h1 class="hero-name">
+          Nguyen Dinh<br/>
+          Quang <span class="accent">Khanh</span>
+        </h1>
+        <p class="hero-title">
+          <span class="highlight">Backend Software Engineer</span> &middot; MoMo &middot; 30M+ MAU
+        </p>
+        <p class="hero-tagline">
+          I build <strong>distributed systems from scratch</strong> &mdash; databases, message queues,
+          caches, and AI agent orchestrators. 1,156 tests. 0 failures.
+          Sub-100ms latency at thousands of RPS.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/ndqkhanh" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/ndqkhanh" target="_blank" rel="noopener" class="btn btn-secondary">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a href="../Khanh_Nguyen_FAANG_Resume (1).pdf" target="_blank" class="btn btn-ghost">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Resume PDF
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ==============================
+       STATS BAR
+  ============================== -->
+  <div id="stats">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-number mono" data-target="1156">0</span>
+        <span class="stat-label">Total Tests</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number mono" data-target="5">0</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number mono" data-target="14">0</span>
+        <span class="stat-label">CS Fundamentals</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number mono" data-target="0">—</span>
+        <span class="stat-label">Test Failures</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================
+       PROJECTS
+  ============================== -->
+  <section id="projects">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Showcase</p>
+        <h2 class="section-title">Systems Built<br/>From Scratch</h2>
+        <p class="section-desc">Five production-grade distributed systems demonstrating depth across databases, messaging, caching, networking, and AI orchestration.</p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- GrabFlow -->
+        <div class="project-card reveal reveal-delay-1" data-color="primary" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-primary">🚗</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/grabflow" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+              <a href="../grabflow/demo/index.html" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Demo
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">GrabFlow</h3>
+          <p class="project-tagline mono">AI-Powered Distributed Ride-Sharing Platform</p>
+          <p class="project-desc">7 microservices on 4 custom-built infrastructure systems. The capstone project showcasing every systems programming concept in one cohesive platform.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">412 tests, 0 failures</span>
+            </div>
+            <div class="project-stat text-primary">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">7 microservices</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">H3 geospatial indexing for driver-rider matching</div>
+            <div class="project-feature">Custom DSL compiler for fare rule configuration</div>
+            <div class="project-feature">Saga pattern for distributed transaction management</div>
+            <div class="project-feature">Bloom filter for duplicate detection at scale</div>
+            <div class="project-feature">TLS 1.3 handshake from scratch (no JVM SSL)</div>
+            <div class="project-feature">Custom DNS resolver and memory-mapped IPC</div>
+            <div class="project-feature">Timing wheel for O(1) timeout scheduling</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-primary">Java 21</span>
+            <span class="tag tag-primary">Virtual Threads</span>
+            <span class="tag tag-default">gRPC</span>
+            <span class="tag tag-default">H3 Geospatial</span>
+            <span class="tag tag-default">Saga</span>
+            <span class="tag tag-default">TLS 1.3</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
+        <!-- NexusDB -->
+        <div class="project-card reveal reveal-delay-2" data-color="secondary" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-secondary">🗄</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/nexus-db" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">NexusDB</h3>
+          <p class="project-tagline mono">Adaptive Concurrency Transactional Engine</p>
+          <p class="project-desc">Database engine with MVCC + SSI and adaptive lock elision. 3.2x faster than static 2PL. 80K+ transactions/sec on commodity hardware.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">133 tests</span>
+            </div>
+            <div class="project-stat" style="color:var(--secondary)">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">80K+ txn/sec</span>
+            </div>
+            <div class="project-stat" style="color:var(--warn)">
+              <span class="project-stat-icon">🚀</span>
+              <span class="mono">3.2x vs 2PL</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">MVCC with Serializable Snapshot Isolation (SSI)</div>
+            <div class="project-feature">Adaptive lock elision — locks removed when contention is low</div>
+            <div class="project-feature">B-Tree with hand-over-hand latching for safe concurrent access</div>
+            <div class="project-feature">Write-Ahead Log with ARIES redo/undo recovery protocol</div>
+            <div class="project-feature">Epoch-based garbage collection (no stop-the-world)</div>
+            <div class="project-feature">CAS + StampedLock for lock-free hot paths</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-secondary">Java 21</span>
+            <span class="tag tag-secondary">MVCC</span>
+            <span class="tag tag-default">SSI</span>
+            <span class="tag tag-default">B-Tree</span>
+            <span class="tag tag-default">WAL + ARIES</span>
+            <span class="tag tag-default">CAS</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
+        <!-- TurboMQ -->
+        <div class="project-card reveal reveal-delay-1" data-color="success" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-success">📨</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/turbo-mq" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">TurboMQ</h3>
+          <p class="project-tagline mono">Elastic Distributed Message Queue</p>
+          <p class="project-desc">Kafka-inspired MQ with per-partition Raft consensus. 50K+ messages/sec with exactly-once delivery semantics and SWIM-based cluster membership.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">219 tests, 0 failures</span>
+            </div>
+            <div class="project-stat" style="color:var(--success)">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">50K+ msg/sec</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">Per-partition Raft consensus for strong ordering guarantees</div>
+            <div class="project-feature">SWIM gossip protocol for failure detection</div>
+            <div class="project-feature">RocksDB for persistent log storage</div>
+            <div class="project-feature">Consumer groups with offset management</div>
+            <div class="project-feature">Exactly-once delivery via idempotent producers</div>
+            <div class="project-feature">Micrometer metrics with Prometheus export</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-success">Java 21</span>
+            <span class="tag tag-success">Raft</span>
+            <span class="tag tag-default">gRPC</span>
+            <span class="tag tag-default">RocksDB</span>
+            <span class="tag tag-default">SWIM gossip</span>
+            <span class="tag tag-default">Micrometer</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
+        <!-- FlashCache -->
+        <div class="project-card reveal reveal-delay-2" data-color="warn" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-warn">⚡</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/flash-cache" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">FlashCache</h3>
+          <p class="project-tagline mono">Distributed In-Memory Cache</p>
+          <p class="project-desc">Redis-alternative with 6 networking protocols implemented from scratch. Custom NIO selector, TLS 1.3, HTTP/2+HPACK, WebSocket — no library abstractions.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">256 tests</span>
+            </div>
+            <div class="project-stat" style="color:var(--warn)">
+              <span class="project-stat-icon">📡</span>
+              <span class="mono">6 protocols</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">RESP, HTTP/1.1, HTTP/2+HPACK, WebSocket, TLS 1.3 from scratch</div>
+            <div class="project-feature">Java NIO Selector for non-blocking I/O multiplexing</div>
+            <div class="project-feature">Consistent hashing for even key distribution</div>
+            <div class="project-feature">SWIM gossip for node membership</div>
+            <div class="project-feature">LRU eviction with O(1) get/put</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-warn">Java 21</span>
+            <span class="tag tag-warn">NIO</span>
+            <span class="tag tag-default">TLS 1.3</span>
+            <span class="tag tag-default">HTTP/2</span>
+            <span class="tag tag-default">HPACK</span>
+            <span class="tag tag-default">Consistent Hashing</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
+        <!-- AgentForge -->
+        <div class="project-card reveal" data-color="purple" tabindex="0" role="button" aria-expanded="false" style="grid-column: 1 / -1;">
+          <div class="project-header">
+            <div class="project-icon project-icon-purple">🤖</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/agent-forge" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">AgentForge</h3>
+          <p class="project-tagline mono">Speculative Multi-Agent Orchestration Framework</p>
+          <p class="project-desc">AI agent orchestrator with speculative parallel execution, achieving ~40% latency reduction. Implements MCP + A2A protocols and a DAG workflow engine for complex multi-agent pipelines.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">136 tests across 5 modules</span>
+            </div>
+            <div class="project-stat" style="color:#a78bfa">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">~40% latency reduction</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">Speculative agent execution — parallel branches, commit winner</div>
+            <div class="project-feature">MCP (Model Context Protocol) + A2A (Agent-to-Agent) protocols</div>
+            <div class="project-feature">DAG workflow engine for complex dependency graphs</div>
+            <div class="project-feature">Kafka-backed event bus for agent communication</div>
+            <div class="project-feature">Virtual Threads for high-concurrency agent spawning</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-purple">Java 21</span>
+            <span class="tag tag-purple">Virtual Threads</span>
+            <span class="tag tag-default">MCP</span>
+            <span class="tag tag-default">A2A</span>
+            <span class="tag tag-default">Kafka</span>
+            <span class="tag tag-default">DAG Engine</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       ARCHITECTURE
+  ============================== -->
+  <section id="architecture">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">System Design</p>
+        <h2 class="section-title">How It All<br/>Connects</h2>
+        <p class="section-desc">GrabFlow consumes the four infrastructure projects as its foundation — demonstrating that every system is purpose-built and composable.</p>
+      </div>
+
+      <div class="arch-diagram reveal">
+        <!-- Application Layer -->
+        <div class="arch-layer">
+          <div class="arch-layer-label">Application Layer</div>
+          <div class="arch-nodes">
+            <div class="arch-node grabflow">
+              <div class="arch-node-name text-primary">GrabFlow</div>
+              <div class="arch-node-desc">7 microservices &middot; 412 tests &middot; H3 geospatial &middot; DSL compiler &middot; Saga</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">↓</div>
+        <div class="arch-connector">consumes infrastructure layer</div>
+        <div class="arch-arrow">↓</div>
+
+        <!-- Infrastructure Layer -->
+        <div class="arch-layer">
+          <div class="arch-layer-label">Infrastructure Layer (custom-built)</div>
+          <div class="arch-nodes">
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--secondary)">NexusDB</div>
+              <div class="arch-node-desc">MVCC &middot; SSI &middot; WAL &middot; B-Tree &middot; 80K txn/sec</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--success)">TurboMQ</div>
+              <div class="arch-node-desc">Raft consensus &middot; SWIM &middot; 50K msg/sec &middot; exactly-once</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--warn)">FlashCache</div>
+              <div class="arch-node-desc">6 protocols &middot; consistent hashing &middot; LRU &middot; NIO</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:#a78bfa">AgentForge</div>
+              <div class="arch-node-desc">MCP+A2A &middot; speculative exec &middot; DAG &middot; 40% faster</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">↓</div>
+        <div class="arch-connector">shared internals</div>
+        <div class="arch-arrow">↓</div>
+
+        <!-- Primitives Layer -->
+        <div class="arch-layer" style="margin-bottom:0">
+          <div class="arch-layer-label">Core Primitives</div>
+          <div class="arch-nodes">
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">Virtual Threads</div>
+            </div>
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">CAS / Lock-Free</div>
+            </div>
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">NIO Selector</div>
+            </div>
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">gRPC / Protobuf</div>
+            </div>
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">SWIM Gossip</div>
+            </div>
+            <div class="arch-node" style="min-width: 120px; flex: 0 1 auto;">
+              <div class="arch-node-name" style="font-size:0.82rem">WAL / ARIES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       EXPERIENCE
+  ============================== -->
+  <section id="experience">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Work History</p>
+        <h2 class="section-title">Where I've<br/>Shipped</h2>
+        <p class="section-desc">Production backend engineering at Vietnam's #1 fintech platform, serving 30M+ monthly active users.</p>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-role mono">Backend Software Engineer</div>
+              <div class="timeline-company">MoMo</div>
+              <div style="font-size:0.85rem;color:var(--muted);margin-top:4px;">Vietnam's #1 e-wallet &middot; 30M+ Monthly Active Users</div>
+            </div>
+            <span class="timeline-period">Jan 2025 &rarr; Present</span>
+          </div>
+
+          <div class="timeline-achievements">
+            <div class="achievement">
+              <span class="achievement-icon">🏆</span>
+              <div class="achievement-text">
+                <strong>Journey Platform</strong> — Built a real-time user journey engine recognized as a
+                <span class="metric">Top 16 Project of the Year</span> at MoMo. Handles
+                <span class="metric">2–3K RPS</span> with <span class="metric">sub-100ms P99 latency</span>.
+              </div>
+            </div>
+            <div class="achievement">
+              <span class="achievement-icon">💰</span>
+              <div class="achievement-text">
+                <strong>BigQuery Cost Optimization</strong> — Redesigned data pipeline queries and materialization strategy,
+                cutting BigQuery costs from <span class="metric">$100/day to $10/day</span> — a
+                <span class="metric">90% reduction</span>.
+              </div>
+            </div>
+            <div class="achievement">
+              <span class="achievement-icon">🕐</span>
+              <div class="achievement-text">
+                <strong>Greenwich Scheduling System</strong> — Designed and implemented a DAG-based job scheduler
+                using Quartz + MongoDB, enabling complex multi-step campaign workflows with reliable retry and failure handling.
+              </div>
+            </div>
+            <div class="achievement">
+              <span class="achievement-icon">📊</span>
+              <div class="achievement-text">
+                <strong>Observability</strong> — Built Grafana dashboards from scratch for real-time platform health,
+                reducing mean time to detect (MTTD) by <span class="metric">60%</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       SKILLS
+  ============================== -->
+  <section id="skills">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Technical Stack</p>
+        <h2 class="section-title">Skills &amp;<br/>Technologies</h2>
+        <p class="section-desc">Deep expertise in Java concurrency, distributed systems, and cloud-native infrastructure.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-category reveal reveal-delay-1">
+          <div class="skill-category-name">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">SQL</span>
+          </div>
+        </div>
+        <div class="skill-category reveal reveal-delay-2">
+          <div class="skill-category-name">Java Concurrency</div>
+          <div class="skill-tags">
+            <span class="skill-tag">ReentrantLock</span>
+            <span class="skill-tag">CAS / AtomicReference</span>
+            <span class="skill-tag">StampedLock</span>
+            <span class="skill-tag">Virtual Threads</span>
+            <span class="skill-tag">StructuredTaskScope</span>
+          </div>
+        </div>
+        <div class="skill-category reveal reveal-delay-3">
+          <div class="skill-category-name">Data &amp; Streaming</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Kafka</span>
+            <span class="skill-tag">Flink</span>
+            <span class="skill-tag">HBase</span>
+            <span class="skill-tag">StarRocks</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">RocksDB</span>
+          </div>
+        </div>
+        <div class="skill-category reveal reveal-delay-1">
+          <div class="skill-category-name">Infrastructure</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">Helm</span>
+            <span class="skill-tag">Jenkins</span>
+            <span class="skill-tag">Terraform</span>
+          </div>
+        </div>
+        <div class="skill-category reveal reveal-delay-2">
+          <div class="skill-category-name">Protocols</div>
+          <div class="skill-tags">
+            <span class="skill-tag">gRPC</span>
+            <span class="skill-tag">REST</span>
+            <span class="skill-tag">GraphQL</span>
+            <span class="skill-tag">MCP</span>
+            <span class="skill-tag">A2A</span>
+          </div>
+        </div>
+        <div class="skill-category reveal reveal-delay-3">
+          <div class="skill-category-name">Architecture</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Microservices</span>
+            <span class="skill-tag">EDA</span>
+            <span class="skill-tag">DDD</span>
+            <span class="skill-tag">CQRS</span>
+            <span class="skill-tag">Saga</span>
+            <span class="skill-tag">MVCC</span>
+            <span class="skill-tag">Raft</span>
+            <span class="skill-tag">Lock-Free DS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       CS FUNDAMENTALS
+  ============================== -->
+  <section id="cs-fundamentals">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">First Principles</p>
+        <h2 class="section-title">CS Fundamentals<br/>Implemented</h2>
+        <p class="section-desc">Not just used — implemented from scratch. Each concept is grounded in a working, tested system.</p>
+      </div>
+
+      <div class="cs-grid reveal">
+        <a href="https://github.com/ndqkhanh/flash-cache" target="_blank" class="cs-cell" data-glow="warn">
+          <span class="cs-cell-badge">⚡</span>
+          <div class="cs-cell-name">TLS 1.3</div>
+          <div class="cs-cell-project">FlashCache &middot; GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/flash-cache" target="_blank" class="cs-cell" data-glow="warn">
+          <span class="cs-cell-badge">📡</span>
+          <div class="cs-cell-name">IPv4/IPv6 &amp; DNS</div>
+          <div class="cs-cell-project">GrabFlow (custom resolver)</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">🌐</span>
+          <div class="cs-cell-name">H3 Geospatial</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">🌸</span>
+          <div class="cs-cell-name">Bloom Filter</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">🔄</span>
+          <div class="cs-cell-name">Saga Pattern</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">💬</span>
+          <div class="cs-cell-name">DSL Compiler</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">📦</span>
+          <div class="cs-cell-name">IPC (mmap)</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">⏱</span>
+          <div class="cs-cell-name">Timing Wheel</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">🔢</span>
+          <div class="cs-cell-name">CRC-32</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/grabflow" target="_blank" class="cs-cell" data-glow="primary">
+          <span class="cs-cell-badge">⚙</span>
+          <div class="cs-cell-name">State Machine</div>
+          <div class="cs-cell-project">GrabFlow</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/turbo-mq" target="_blank" class="cs-cell" data-glow="success">
+          <span class="cs-cell-badge">🗳</span>
+          <div class="cs-cell-name">Raft Consensus</div>
+          <div class="cs-cell-project">TurboMQ</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/nexus-db" target="_blank" class="cs-cell" data-glow="secondary">
+          <span class="cs-cell-badge">🔐</span>
+          <div class="cs-cell-name">MVCC / SSI</div>
+          <div class="cs-cell-project">NexusDB</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/flash-cache" target="_blank" class="cs-cell" data-glow="warn">
+          <span class="cs-cell-badge">🔗</span>
+          <div class="cs-cell-name">Consistent Hashing</div>
+          <div class="cs-cell-project">FlashCache &middot; TurboMQ</div>
+        </a>
+        <a href="https://github.com/ndqkhanh/turbo-mq" target="_blank" class="cs-cell" data-glow="success">
+          <span class="cs-cell-badge">🏊</span>
+          <div class="cs-cell-name">SWIM Gossip</div>
+          <div class="cs-cell-project">TurboMQ &middot; FlashCache</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       EDUCATION
+  ============================== -->
+  <section id="education">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Academic Background</p>
+        <h2 class="section-title">Education</h2>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-info">
+          <div class="edu-school">University of Science</div>
+          <div class="edu-degree mono">B.S. Computer Science &middot; Ho Chi Minh City, Vietnam</div>
+          <div class="edu-badges">
+            <span class="edu-badge edu-badge-gpa">GPA 3.92 / 4.0</span>
+            <span class="edu-badge edu-badge-honor">Salutatorian (Top 2)</span>
+            <span class="edu-badge edu-badge-top">Graduated with Distinction</span>
+          </div>
+        </div>
+        <div class="edu-gpa-display">
+          <span class="edu-gpa-number">3.92</span>
+          <span class="edu-gpa-label mono">GPA / 4.0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       CONTACT
+  ============================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-wrapper reveal">
+        <h2 class="contact-title">Let's Build<br/><span>Something Real</span></h2>
+        <p class="contact-desc">Open to FAANG-level backend roles. I bring systems depth, production experience, and a track record of building things that work.</p>
+        <div class="contact-links">
+          <a href="mailto:khanhndq2002@gmail.com" class="contact-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            khanhndq2002@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/ndqkhanh" target="_blank" rel="noopener" class="contact-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            linkedin.com/in/ndqkhanh
+          </a>
+          <a href="https://github.com/ndqkhanh" target="_blank" rel="noopener" class="contact-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            github.com/ndqkhanh
+          </a>
+          <a href="tel:+84377492045" class="contact-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12.37a19.79 19.79 0 01-3.07-8.67A2 2 0 013.39 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9.91a16 16 0 006.29 6.29l1.28-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            +84 377 492 045
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================
+       FOOTER
+  ============================== -->
+  <footer>
+    <div class="container">
+      <p class="footer-text">
+        Built by <a href="https://github.com/ndqkhanh">Nguyen Dinh Quang Khanh</a> &middot;
+        <span class="mono">1,156 tests. 0 failures.</span> &middot;
+        Ho Chi Minh City, Vietnam &middot; 2025
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==============================
+       JAVASCRIPT
+  ============================== -->
+  <script>
+    // ──────────────────────────────────────────
+    // NAV SCROLL EFFECT
+    // ──────────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ──────────────────────────────────────────
+    // MOBILE MENU
+    // ──────────────────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
+
+    hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+    mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+
+    // ──────────────────────────────────────────
+    // PARTICLE CANVAS
+    // ──────────────────────────────────────────
+    (function() {
+      const canvas = document.getElementById('canvas-bg');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles, animFrame;
+      const COUNT = 90;
+      const COLORS = ['#00d4ff', '#ff6b35', '#00ff88', '#ffd166'];
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+
+      function Particle() {
+        this.reset = function() {
+          this.x  = Math.random() * W;
+          this.y  = Math.random() * H;
+          this.r  = Math.random() * 1.5 + 0.3;
+          this.vx = (Math.random() - 0.5) * 0.35;
+          this.vy = (Math.random() - 0.5) * 0.35;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.alpha = Math.random() * 0.5 + 0.1;
+        };
+        this.reset();
+        this.update = function() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0) this.x = W;
+          if (this.x > W) this.x = 0;
+          if (this.y < 0) this.y = H;
+          if (this.y > H) this.y = 0;
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({ length: COUNT }, () => new Particle());
+      }
+
+      function drawConnections() {
+        const DIST = 130;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < DIST) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(0,212,255,${0.06 * (1 - d/DIST)})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+        drawConnections();
+        particles.forEach(p => {
+          p.update();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2,'0');
+          ctx.fill();
+        });
+        animFrame = requestAnimationFrame(loop);
+      }
+
+      init();
+      loop();
+      window.addEventListener('resize', () => { resize(); });
+    })();
+
+    // ──────────────────────────────────────────
+    // INTERSECTION OBSERVER — REVEAL
+    // ──────────────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ──────────────────────────────────────────
+    // COUNTER ANIMATION
+    // ──────────────────────────────────────────
+    function animateCounter(el, target, duration) {
+      if (target === 0) return; // "0 failures" shows "—" statically
+      let start = null;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString();
+      };
+      requestAnimationFrame(step);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          document.querySelectorAll('[data-target]').forEach(el => {
+            const t = parseInt(el.dataset.target, 10);
+            animateCounter(el, t, 1800);
+          });
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statsObserver.observe(document.getElementById('stats'));
+
+    // ──────────────────────────────────────────
+    // PROJECT CARD EXPAND / COLLAPSE
+    // ──────────────────────────────────────────
+    document.querySelectorAll('.project-card').forEach(card => {
+      const btn = card.querySelector('.expand-btn');
+      const textSpan = btn ? btn.querySelector('.expand-text') : null;
+
+      function toggle(e) {
+        // Don't toggle if clicking a link
+        if (e.target.closest('.project-link')) return;
+        const isExpanded = card.classList.toggle('expanded');
+        card.setAttribute('aria-expanded', isExpanded);
+        if (textSpan) textSpan.textContent = isExpanded ? 'hide features' : 'show key features';
+      }
+
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(e); }
+      });
+    });
+
+    // ──────────────────────────────────────────
+    // SMOOTH ACTIVE NAV HIGHLIGHTING
+    // ──────────────────────────────────────────
+    const sections = document.querySelectorAll('section[id], div[id="stats"]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(s => sectionObserver.observe(s));
+  </script>
+</body>
+</html>
