@@ -1381,6 +1381,62 @@
 
       <div class="projects-grid">
 
+        <!-- VectorForge -->
+        <div class="project-card reveal reveal-delay-1" data-color="primary" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-primary">🔍</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/vector-forge" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+              <a href="https://ndqkhanh.github.io/vector-forge/" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Demo
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">VectorForge</h3>
+          <p class="project-tagline mono">Distributed AI-Augmented Search Engine</p>
+          <p class="project-desc">Hybrid search combining BM25 lexical and HNSW vector search with Reciprocal Rank Fusion. 8 modules, 88 source files, zero external dependencies.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">781 tests, 0 failures</span>
+            </div>
+            <div class="project-stat text-primary">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">50K+ docs/sec</span>
+            </div>
+            <div class="project-stat" style="color:var(--warn)">
+              <span class="project-stat-icon">🎯</span>
+              <span class="mono">95%+ recall@10</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">Hand-rolled HNSW graph (Malkov 2018) for vector ANN search</div>
+            <div class="project-feature">Lock-free inverted index with epoch-based GC (zero STW)</div>
+            <div class="project-feature">Skip-list posting lists with delta + VByte encoding (60% compression)</div>
+            <div class="project-feature">Product quantization — 12x vector memory reduction</div>
+            <div class="project-feature">Reciprocal Rank Fusion + MMR diversity reranking</div>
+            <div class="project-feature">StructuredTaskScope scatter-gather across shards</div>
+            <div class="project-feature">Two-tier query cache (exact + semantic similarity)</div>
+            <div class="project-feature">SWIM gossip with shard-aware dissemination</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-primary">Java 21</span>
+            <span class="tag tag-primary">HNSW</span>
+            <span class="tag tag-default">BM25</span>
+            <span class="tag tag-default">RRF</span>
+            <span class="tag tag-default">Virtual Threads</span>
+            <span class="tag tag-default">SWIM Gossip</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
         <!-- GrabFlow -->
         <div class="project-card reveal reveal-delay-1" data-color="primary" tabindex="0" role="button" aria-expanded="false">
           <div class="project-header">
@@ -1573,6 +1629,52 @@
           </button>
         </div>
 
+        <!-- StreamForge -->
+        <div class="project-card reveal" data-color="success" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-success">📺</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/stream-forge" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">StreamForge</h3>
+          <p class="project-tagline mono">Zero-Dependency Video Streaming Platform</p>
+          <p class="project-desc">Adaptive bitrate video streaming with CDN, BM25 search, and content-addressable deduplication. 6 modules built entirely from scratch.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">127 tests, 0 failures</span>
+            </div>
+            <div class="project-stat" style="color:var(--success)">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">6 modules</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">Adaptive bitrate streaming with EWMA bandwidth estimation</div>
+            <div class="project-feature">CDN layer with consistent hashing (150 virtual nodes)</div>
+            <div class="project-feature">BM25 full-text search with inverted index</div>
+            <div class="project-feature">SHA-256 content-addressable deduplication</div>
+            <div class="project-feature">HTTP range requests for seek-accurate delivery</div>
+            <div class="project-feature">Priority-queue transcoding pipeline with resolution ladder</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-success">Java 21</span>
+            <span class="tag tag-success">Virtual Threads</span>
+            <span class="tag tag-default">ABR</span>
+            <span class="tag tag-default">CDN</span>
+            <span class="tag tag-default">BM25</span>
+            <span class="tag tag-default">HTTP Range</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
         <!-- AgentForge -->
         <div class="project-card reveal" data-color="purple" tabindex="0" role="button" aria-expanded="false" style="grid-column: 1 / -1;">
           <div class="project-header">
@@ -1618,6 +1720,52 @@
           </button>
         </div>
 
+        <!-- TriggerFlow -->
+        <div class="project-card reveal" data-color="warn" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-warn">⚡</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/triggerflow" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">TriggerFlow</h3>
+          <p class="project-tagline mono">Event-Driven Marketing Automation Engine</p>
+          <p class="project-desc">Real-time IFTTT-style rule engine inspired by MoMo's Journey Platform. Processes events through campaign rules with deduplication and rate limiting.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">8 modules</span>
+            </div>
+            <div class="project-stat" style="color:var(--warn)">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">Event-driven</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">AND/OR Boolean rule engine with weighted short-circuit evaluation</div>
+            <div class="project-feature">Bloom filter prefiltering for O(1) event-to-campaign routing</div>
+            <div class="project-feature">Three-tier deduplication (Bloom → cache → persistent store)</div>
+            <div class="project-feature">Hierarchical timing wheel for O(1) delayed action scheduling</div>
+            <div class="project-feature">Per-service token bucket rate limiting with backpressure</div>
+            <div class="project-feature">Campaign state machine with A/B test routing</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-warn">Java 21</span>
+            <span class="tag tag-warn">Virtual Threads</span>
+            <span class="tag tag-default">Rule Engine</span>
+            <span class="tag tag-default">Bloom Filter</span>
+            <span class="tag tag-default">Timing Wheel</span>
+            <span class="tag tag-default">Backpressure</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1630,7 +1778,7 @@
       <div class="reveal">
         <p class="section-label">System Design</p>
         <h2 class="section-title">How It All<br/>Connects</h2>
-        <p class="section-desc">GrabFlow consumes the four infrastructure projects as its foundation — demonstrating that every system is purpose-built and composable.</p>
+        <p class="section-desc">Eight from-scratch infrastructure projects form a complete tech company backend stack — from storage to search to AI — demonstrating that every system is purpose-built and composable.</p>
       </div>
 
       <div class="arch-diagram reveal">
@@ -1668,6 +1816,18 @@
             <div class="arch-node">
               <div class="arch-node-name" style="color:#a78bfa">AgentForge</div>
               <div class="arch-node-desc">MCP+A2A &middot; speculative exec &middot; DAG &middot; 40% faster</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--primary)">VectorForge</div>
+              <div class="arch-node-desc">HNSW &middot; BM25 &middot; RRF &middot; 781 tests &middot; 50K docs/sec</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--success)">StreamForge</div>
+              <div class="arch-node-desc">ABR &middot; CDN &middot; BM25 &middot; SHA-256 dedup &middot; 6 modules</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--warn)">TriggerFlow</div>
+              <div class="arch-node-desc">Rule engine &middot; Bloom filter &middot; timing wheel &middot; 8 modules</div>
             </div>
           </div>
         </div>
