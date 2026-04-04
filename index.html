@@ -1350,11 +1350,11 @@
   <div id="stats">
     <div class="stats-inner">
       <div class="stat-item">
-        <span class="stat-number mono" data-target="3290">0</span>
+        <span class="stat-number mono" data-target="3477">0</span>
         <span class="stat-label">Total Tests</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number mono" data-target="8">0</span>
+        <span class="stat-number mono" data-target="9">0</span>
         <span class="stat-label">Projects</span>
       </div>
       <div class="stat-item">
@@ -1376,7 +1376,7 @@
       <div class="reveal">
         <p class="section-label">Showcase</p>
         <h2 class="section-title">Systems Built<br/>From Scratch</h2>
-        <p class="section-desc">Eight production-grade distributed systems demonstrating depth across databases, messaging, caching, networking, search, streaming, automation, and AI.</p>
+        <p class="section-desc">Nine production-grade distributed systems demonstrating depth across databases, messaging, caching, networking, search, streaming, automation, AI inference, and AI agents.</p>
       </div>
 
       <div class="projects-grid">
@@ -1766,6 +1766,54 @@
           </button>
         </div>
 
+        <!-- InferX -->
+        <div class="project-card reveal" data-color="secondary" tabindex="0" role="button" aria-expanded="false">
+          <div class="project-header">
+            <div class="project-icon project-icon-secondary">🧠</div>
+            <div class="project-links">
+              <a href="https://github.com/ndqkhanh/inferx" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+          <h3 class="project-name">InferX</h3>
+          <p class="project-tagline mono">Distributed AI Inference Gateway</p>
+          <p class="project-desc">Model-serving gateway with Thompson Sampling routing, PID-controlled adaptive batching, EDF scheduling, and embedded stream processing — 10 modules, zero external dependencies.</p>
+          <div class="project-stats">
+            <div class="project-stat text-success">
+              <span class="project-stat-icon">✓</span>
+              <span class="mono">187 tests, 0 failures</span>
+            </div>
+            <div class="project-stat" style="color:var(--secondary)">
+              <span class="project-stat-icon">⚡</span>
+              <span class="mono">10 modules</span>
+            </div>
+          </div>
+          <div class="project-features">
+            <div class="project-feature">Thompson Sampling model router — Beta posterior, 95% optimal in ~1K requests</div>
+            <div class="project-feature">PID controller for adaptive batch sizing (target 85% GPU fill rate)</div>
+            <div class="project-feature">EDF scheduling + work-stealing deques (&lt;5% load imbalance)</div>
+            <div class="project-feature">Stream processing engine — operator DAGs, watermarks, Chandy-Lamport checkpoints</div>
+            <div class="project-feature">Gorilla time-series compression (12x on steady-state metrics)</div>
+            <div class="project-feature">HDR Histogram for lock-free percentile tracking</div>
+            <div class="project-feature">Blue-green model deployment with atomic promote/rollback</div>
+            <div class="project-feature">HTTP/2 binary framing (RFC 7540) from scratch</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-secondary">Java 21</span>
+            <span class="tag tag-secondary">Virtual Threads</span>
+            <span class="tag tag-default">Thompson Sampling</span>
+            <span class="tag tag-default">EDF</span>
+            <span class="tag tag-default">PID Control</span>
+            <span class="tag tag-default">Gorilla</span>
+          </div>
+          <button class="expand-btn mono">
+            <span class="arrow">›</span>
+            <span class="expand-text">show key features</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1778,7 +1826,7 @@
       <div class="reveal">
         <p class="section-label">System Design</p>
         <h2 class="section-title">How It All<br/>Connects</h2>
-        <p class="section-desc">Eight from-scratch infrastructure projects form a complete tech company backend stack — from storage to search to AI — demonstrating that every system is purpose-built and composable.</p>
+        <p class="section-desc">Nine from-scratch infrastructure projects form a complete tech company backend stack — from storage to search to AI inference — demonstrating that every system is purpose-built and composable.</p>
       </div>
 
       <div class="arch-diagram reveal">
@@ -1815,7 +1863,7 @@
             </div>
             <div class="arch-node">
               <div class="arch-node-name" style="color:#a78bfa">AgentForge</div>
-              <div class="arch-node-desc">MCP+A2A &middot; speculative exec &middot; DAG &middot; 40% faster</div>
+              <div class="arch-node-desc">MCP &middot; adaptive compaction &middot; SSE &middot; 697 tests</div>
             </div>
             <div class="arch-node">
               <div class="arch-node-name" style="color:var(--primary)">VectorForge</div>
@@ -1827,7 +1875,11 @@
             </div>
             <div class="arch-node">
               <div class="arch-node-name" style="color:var(--warn)">TriggerFlow</div>
-              <div class="arch-node-desc">Rule engine &middot; Bloom filter &middot; timing wheel &middot; 8 modules</div>
+              <div class="arch-node-desc">Rule engine &middot; Bloom filter &middot; timing wheel &middot; 7 modules</div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-node-name" style="color:var(--secondary)">InferX</div>
+              <div class="arch-node-desc">Thompson Sampling &middot; EDF &middot; PID batcher &middot; Gorilla &middot; 10 modules</div>
             </div>
           </div>
         </div>
