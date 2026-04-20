@@ -1,0 +1,15 @@
+# Claude Code session state
+.omc/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+out/
